@@ -131,6 +131,24 @@
   .pub .venue .note { color: var(--brass); font-weight: 500; }
   .pub .summary { font-size: .98rem; margin: .55em 0 0; }
   .pub .pub-links { font-family: var(--sans); font-size: .93rem; margin-top: .55em; display: flex; gap: 16px; flex-wrap: wrap; }
+  /* Older papers: collapsed by default, arrow turns when opened */
+  .older { border-top: 1px solid var(--rule); margin-top: 8px; }
+  .older summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--sans); font-size: 1rem; font-weight: 500; color: var(--ink);
+    padding: 18px 0;
+  }
+  .older summary::-webkit-details-marker { display: none; }
+  .older summary::before {
+    content: ""; width: 7px; height: 7px; flex: none;
+    border-right: 2px solid var(--brass); border-bottom: 2px solid var(--brass);
+    transform: rotate(-45deg); transition: transform .15s ease;
+  }
+  .older[open] summary::before { transform: rotate(45deg); }
+  .older summary:hover { text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; }
+  .older summary:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+  .older .pubs .pub:first-child { padding-top: 8px; }
+  @media (prefers-reduced-motion: reduce) { .older summary::before { transition: none; } }
   .pubs-note { font-family: var(--sans); font-size: .9rem; color: var(--muted); margin-top: 1em; }
 
   /* Experience / teaching */
@@ -263,6 +281,11 @@
           <div class="pub-links"><a href="https://arxiv.org/abs/2610.07452">arXiv</a></div>
         </div>
       </li>
+    </ol>
+
+    <details class="older">
+      <summary>Earlier work (2022, 2 papers)</summary>
+      <ol class="pubs">
       <li class="pub">
         <figure class="fig"><a href="assets/papers/icpr2022.jpg"><img src="assets/papers/icpr2022.jpg" alt="An input image alongside feature-attribution maps from separately trained networks" loading="lazy"></a></figure>
         <div>
@@ -283,7 +306,8 @@
           <div class="pub-links"><a href="https://doi.org/10.1109/EMBC48229.2022.9871921">IEEE Xplore</a></div>
         </div>
       </li>
-    </ol>
+      </ol>
+    </details>
     <p class="pubs-note">* equal contribution</p>
   </section>
 
