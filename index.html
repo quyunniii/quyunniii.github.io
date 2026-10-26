@@ -159,6 +159,71 @@
   .plain { list-style: none; margin: 0; padding: 0; }
   .plain li { padding: 4px 0; }
 
+
+  /* Knowledge map (About tab) */
+  .kmap-intro { color: var(--muted); font-family: var(--sans); font-size: .98rem; margin-bottom: 18px; }
+  .kmap-intro i { font-family: var(--serif); color: var(--text); }
+  .kmap {
+    --afa: #2F5E86; --interp: #A8864F; --rel: #7B5E92;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, .95fr) minmax(0, .9fr) minmax(0, 1.15fr);
+    column-gap: 84px;
+    padding: 26px 28px 22px;
+    background: linear-gradient(180deg, #F3F6F9 0%, #FAFBFA 100%);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+  .kmap-edges { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .kmap-edges path { fill: none; stroke-width: 1.5; opacity: .38; transition: opacity .2s ease, stroke-width .2s ease; }
+  .kcol { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .kcol-label { font-family: var(--sans); font-size: .88rem; font-weight: 500; color: var(--muted); margin-bottom: 2px; }
+  .kcol-themes .kstack { display: flex; flex-direction: column; justify-content: space-around; gap: 22px; flex: 1; }
+  .kcol-papers .kstack, .kcol-data .kstack { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; flex: 1; }
+  .knode {
+    appearance: none; text-align: left; cursor: pointer;
+    font-family: var(--sans); color: var(--text);
+    background: #fff; border: 1px solid var(--rule); border-radius: 7px;
+    transition: opacity .2s ease, box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .knode:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+  .knode.theme {
+    padding: 13px 15px; font-size: 1.02rem; font-weight: 600; line-height: 1.3; color: var(--ink);
+    border-left: 4px solid var(--c);
+    background: color-mix(in srgb, var(--c) 9%, #fff);
+  }
+  .knode.paper { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 9px 12px; border-left: 3px solid var(--c); }
+  .knode.paper b { font-weight: 600; color: var(--ink); font-size: 1rem; }
+  .knode.paper span { font-size: .84rem; color: var(--muted); white-space: nowrap; }
+  .kgroup { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .knode.domain { flex-basis: 100%; border: 0; background: none; padding: 0 2px; font-size: .93rem; font-weight: 600; color: var(--ink); border-radius: 4px; }
+  .knode.domain:hover { text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; }
+  .knode.data { display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: .9rem; font-weight: 600; color: var(--ink); }
+  .knode.data span { font-weight: 400; color: var(--muted); font-size: .84rem; }
+  .knode:hover { box-shadow: 0 2px 10px rgba(36, 68, 95, .12); }
+  .kmap.is-focus .knode:not(.on) { opacity: .28; }
+  .kmap.is-focus .knode.on:not(.domain) { box-shadow: 0 3px 14px rgba(36, 68, 95, .16); border-color: var(--c, var(--ink-light)); }
+  .kmap.is-focus .knode.paper.on { transform: translateX(2px); }
+  .kmap.is-focus .kmap-edges path { opacity: .07; }
+  .kmap.is-focus .kmap-edges path.on { opacity: .95; stroke-width: 2.2; }
+  .kmap-hint { font-family: var(--sans); font-size: .86rem; color: var(--muted); margin: 10px 2px 0; }
+  .pub.flash { animation: pubflash 1.6s ease-out; }
+  @keyframes pubflash { 0% { background: #F3EBDD; } 100% { background: transparent; } }
+  @media (prefers-reduced-motion: reduce) {
+    .knode, .kmap-edges path { transition: none; }
+    .pub.flash { animation: none; }
+  }
+  @media (max-width: 860px) {
+    .kmap { grid-template-columns: 1fr; row-gap: 22px; padding: 20px 16px; }
+    .kmap-edges { display: none; }
+    .kcol-themes .kstack { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 8px; }
+    .kcol-papers .kstack { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .kcol-data .kstack { gap: 12px; }
+    .knode.theme { padding: 9px 12px; font-size: .95rem; }
+    .kmap.is-focus .knode.paper.on { transform: none; }
+  }
+  @media (max-width: 420px) { .kcol-papers .kstack { grid-template-columns: 1fr; } }
+
   footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; font-family: var(--sans); font-size: .9rem; color: var(--muted); }
   footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -211,6 +276,62 @@
     <p>My research develops machine learning methods for two problems: choosing which features to acquire over time when every measurement has a cost, and making reliable predictions on inputs unlike the training data. I apply them to healthcare prognosis, longitudinal psychological assessment, and virtual screening in drug discovery.</p>
     <p>Before UNC, I completed an Honours B.S. in Computer Science and Data Science with High Distinction at the University of Toronto (2023), where I worked on neural-network uncertainty and medical image segmentation and classification.</p>
 
+
+    <div class="sub">
+      <h3>How my work connects</h3>
+      <p class="kmap-intro">My thesis, <i>Towards Inference-Time Reliability &amp; Acquisition Utility</i>, ties two threads together. Hover over or tap a method, paper, or dataset to see what it connects to; click a paper to read it.</p>
+      <div class="kmap" id="kmap">
+        <svg class="kmap-edges" aria-hidden="true"></svg>
+        <div class="kcol kcol-themes">
+          <div class="kcol-label">Methods</div>
+          <div class="kstack">
+            <button type="button" class="knode theme" data-id="afa" style="--c: var(--afa)">Longitudinal active feature acquisition</button>
+            <button type="button" class="knode theme" data-id="interp" style="--c: var(--interp)">Interpretability</button>
+            <button type="button" class="knode theme" data-id="rel" style="--c: var(--rel)">Reliability &amp; uncertainty</button>
+          </div>
+        </div>
+        <div class="kcol kcol-papers">
+          <div class="kcol-label">Papers</div>
+          <div class="kstack">
+            <button type="button" class="knode paper" data-id="cape" data-pub="pub-cape" style="--c: var(--afa)" title="Contrastive Nonmyopic Objective Cost-Tradeoff Acquisition for Longitudinal Data"><b>CAPE</b><span>NeurIPS 2026</span></button>
+            <button type="button" class="knode paper" data-id="react" data-pub="pub-react" style="--c: var(--afa)" title="Relaxed Efficient Acquisition of Context and Temporal Features"><b>REACT</b><span>BCB 2026</span></button>
+            <button type="button" class="knode paper" data-id="treact" data-pub="pub-treact" style="--c: var(--interp)" title="Interpretable Active Feature Acquisition for Cost-Efficient Temporal Prediction with Reduced Participant Burden"><b>TREACT</b><span>Preprint 2026</span></button>
+            <button type="button" class="knode paper" data-id="explor" data-pub="pub-explor" style="--c: var(--rel)" title="Reliable OOD Virtual Screening with Extrapolatory Pseudo-Label Matching"><b>EXPLOR</b><span>BCB 2026</span></button>
+            <button type="button" class="knode paper" data-id="icpr" data-pub="pub-icpr" style="--c: var(--rel)" title="Neural Network Decision-Making Criteria Consistency Analysis via Inputs Sensitivity"><b>Criteria consistency</b><span>ICPR 2022</span></button>
+            <button type="button" class="knode paper" data-id="embc" data-pub="pub-embc" style="--c: var(--rel)" title="Beware the Black-Box of Medical Image Generation: An Uncertainty Analysis by the Learned Feature Space"><b>Feature-space uncertainty</b><span>EMBC 2022</span></button>
+          </div>
+        </div>
+        <div class="kcol kcol-data">
+          <div class="kcol-label">Applications &amp; data</div>
+          <div class="kstack">
+            <div class="kgroup">
+              <button type="button" class="knode domain" data-id="health">Healthcare prognosis</button>
+              <button type="button" class="knode data" data-id="oai" data-parent="health">OAI <span>knee osteoarthritis</span></button>
+              <button type="button" class="knode data" data-id="adni" data-parent="health">ADNI <span>Alzheimer's disease</span></button>
+            </div>
+            <div class="kgroup">
+              <button type="button" class="knode domain" data-id="psych">Psychological assessment</button>
+              <button type="button" class="knode data" data-id="cheears" data-parent="psych">CHEEARS <span>alcohol use</span></button>
+              <button type="button" class="knode data" data-id="iliadd" data-parent="psych">ILIADD <span>negative affect</span></button>
+            </div>
+            <div class="kgroup">
+              <button type="button" class="knode domain" data-id="drug">Drug discovery</button>
+              <button type="button" class="knode data" data-id="chembl" data-parent="drug">ChEMBL <span>virtual screening</span></button>
+            </div>
+            <div class="kgroup">
+              <button type="button" class="knode domain" data-id="vision">Computer vision</button>
+              <button type="button" class="knode data" data-id="imgcls" data-parent="vision">Image classification</button>
+            </div>
+            <div class="kgroup">
+              <button type="button" class="knode domain" data-id="imaging">Medical imaging</button>
+              <button type="button" class="knode data" data-id="ldct" data-parent="imaging">Low-dose CT <span>image generation</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="kmap-hint">Lines show which methods each paper develops and which datasets it is evaluated on.</p>
+    </div>
+
     <div class="sub">
       <h3>Recent</h3>
       <ul class="highlights">
@@ -241,7 +362,7 @@
   <section class="panel" id="publications" role="tabpanel" aria-labelledby="tab-publications" hidden>
     <h2>Recent Publications</h2>
     <ol class="pubs" reversed>
-      <li class="pub">
+      <li class="pub" id="pub-cape">
         <figure class="fig"><a href="assets/papers/neurips2026-cape.png"><img src="assets/papers/neurips2026-cape.png" alt="CAPE embedding of partially observed data: clusters with centroids, each labeled with its next acquisition time and features" width="1400" height="1082" loading="lazy"></a></figure>
         <div>
           <div class="title"><a href="https://openreview.net/forum?id=tqkenMK3QV">Contrastive Nonmyopic Objective Cost-Tradeoff Acquisition for Longitudinal Data</a></div>
@@ -251,7 +372,7 @@
           <div class="pub-links"><a href="https://openreview.net/forum?id=tqkenMK3QV">OpenReview</a><a href="https://neurips.cc/virtual/2026/poster/148964">NeurIPS page</a></div>
         </div>
       </li>
-      <li class="pub">
+      <li class="pub" id="pub-react">
         <figure class="fig"><a href="assets/papers/bcb2026-react.png"><img src="assets/papers/bcb2026-react.png" alt="Overview of REACT: a one-time onboarding acquisition of context descriptors, then a planner that repeatedly decides when to acquire next and which features to acquire" width="1400" height="394" loading="lazy"></a></figure>
         <div>
           <div class="title"><a href="https://doi.org/10.1145/3807503.3819475">Relaxed Efficient Acquisition of Context and Temporal Features</a></div>
@@ -261,7 +382,7 @@
           <div class="pub-links"><a href="https://doi.org/10.1145/3807503.3819475">ACM DL</a><a href="https://arxiv.org/abs/2603.11370">arXiv</a></div>
         </div>
       </li>
-      <li class="pub">
+      <li class="pub" id="pub-explor">
         <figure class="fig"><a href="assets/papers/bcb2026-explor.png"><img src="assets/papers/bcb2026-explor.png" alt="EXPLOR overview: diverse pseudo-labelers are pre-trained, data is expanded, and a multi-headed network matches each head to one pseudo-labeler" width="637" height="475" loading="lazy"></a></figure>
         <div>
           <div class="title"><a href="https://doi.org/10.1145/3807503.3819476">Reliable OOD Virtual Screening with Extrapolatory Pseudo-Label Matching</a></div>
@@ -271,7 +392,7 @@
           <div class="pub-links"><a href="https://doi.org/10.1145/3807503.3819476">ACM DL</a><a href="https://arxiv.org/abs/2406.01825">arXiv</a></div>
         </div>
       </li>
-      <li class="pub">
+      <li class="pub" id="pub-treact">
         <figure class="fig"><a href="assets/papers/arxiv2026-lafa.png"><img src="assets/papers/arxiv2026-lafa.png" alt="A distilled tree policy traced for one example participant: which context and questionnaire panels to acquire at each timepoint" width="1400" height="716" loading="lazy"></a></figure>
         <div>
           <div class="title"><a href="https://arxiv.org/abs/2610.07452">Interpretable Active Feature Acquisition for Cost-Efficient Temporal Prediction with Reduced Participant Burden</a></div>
@@ -286,7 +407,7 @@
     <details class="older">
       <summary>Earlier work (before starting my PhD in fall 2023)</summary>
       <ol class="pubs">
-      <li class="pub">
+      <li class="pub" id="pub-icpr">
         <figure class="fig"><a href="assets/papers/icpr2022.jpg"><img src="assets/papers/icpr2022.jpg" alt="An input image alongside feature-attribution maps from separately trained networks" loading="lazy"></a></figure>
         <div>
           <div class="title"><a href="https://doi.org/10.1109/ICPR56361.2022.9956394">Neural Network Decision-Making Criteria Consistency Analysis via Inputs Sensitivity</a></div>
@@ -296,7 +417,7 @@
           <div class="pub-links"><a href="https://doi.org/10.1109/ICPR56361.2022.9956394">IEEE Xplore</a></div>
         </div>
       </li>
-      <li class="pub">
+      <li class="pub" id="pub-embc">
         <figure class="fig"><a href="assets/papers/embc2022.png"><img src="assets/papers/embc2022.png" alt="Clustered correlation heatmap of learned features from two training trials, showing features grouping by trial" loading="lazy"></a></figure>
         <div>
           <div class="title"><a href="https://doi.org/10.1109/EMBC48229.2022.9871921">Beware the Black-Box of Medical Image Generation: An Uncertainty Analysis by the Learned Feature Space</a></div>
@@ -445,6 +566,140 @@
     });
     dlg.querySelector('button').addEventListener('click', function () { dlg.close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  })();
+
+  // Knowledge map: draws curved links between methods, papers and datasets, and highlights connections on hover/tap.
+  (function () {
+    var map = document.getElementById('kmap');
+    if (!map) return;
+    var svg = map.querySelector('.kmap-edges');
+    var NS = 'http://www.w3.org/2000/svg';
+    var COLORS = { afa: '#2F5E86', interp: '#A8864F', rel: '#7B5E92' };
+    // Edges: method -> paper, and paper -> dataset (or a whole domain when the paper spans it).
+    var THEMES = { afa: ['cape', 'react', 'treact'], interp: ['treact'], rel: ['explor', 'icpr', 'embc'] };
+    var DATA = {
+      cape: ['health'],
+      react: ['oai', 'adni', 'cheears', 'iliadd'],
+      treact: ['cheears'],
+      explor: ['chembl'],
+      icpr: ['imgcls'],
+      embc: ['ldct']
+    };
+    var PAPER_COLOR = { cape: 'afa', react: 'afa', treact: 'interp', explor: 'rel', icpr: 'rel', embc: 'rel' };
+
+    var nodes = {};
+    map.querySelectorAll('.knode').forEach(function (n) { nodes[n.dataset.id] = n; });
+    var edges = [];
+    Object.keys(THEMES).forEach(function (t) { THEMES[t].forEach(function (p) { edges.push({ a: t, b: p, color: COLORS[t] }); }); });
+    Object.keys(DATA).forEach(function (p) { DATA[p].forEach(function (d) { edges.push({ a: p, b: d, color: COLORS[PAPER_COLOR[p]] }); }); });
+
+    function children(id) { return Array.prototype.filter.call(map.querySelectorAll('[data-parent="' + id + '"]'), Boolean).map(function (n) { return n.dataset.id; }); }
+    function parentOf(id) { return nodes[id] && nodes[id].dataset.parent; }
+
+    // Which edges light up for a given node.
+    function activeEdges(id) {
+      var n = nodes[id], kind = n.classList.contains('theme') ? 'theme' : n.classList.contains('paper') ? 'paper' : n.classList.contains('domain') ? 'domain' : 'data';
+      var out = [];
+      if (kind === 'paper') out = edges.filter(function (e) { return e.a === id || e.b === id; });
+      if (kind === 'theme') {
+        var ps = THEMES[id];
+        out = edges.filter(function (e) { return (e.a === id) || (ps.indexOf(e.a) > -1 && DATA[e.a]); });
+      }
+      if (kind === 'data' || kind === 'domain') {
+        var targets = kind === 'domain' ? [id].concat(children(id)) : [id, parentOf(id)];
+        var papers = edges.filter(function (e) { return targets.indexOf(e.b) > -1; }).map(function (e) { return e.a; });
+        out = edges.filter(function (e) {
+          return (targets.indexOf(e.b) > -1 && papers.indexOf(e.a) > -1) || (papers.indexOf(e.b) > -1 && COLORS[e.a]);
+        });
+      }
+      return out;
+    }
+
+    function focus(id) {
+      var on = activeEdges(id), lit = {};
+      lit[id] = 1;
+      on.forEach(function (e) { lit[e.a] = 1; lit[e.b] = 1; });
+      // Datasets light their domain heading; a domain lights its datasets.
+      Object.keys(lit).forEach(function (k) { var p = parentOf(k); if (p) lit[p] = 1; });
+      if (nodes[id].classList.contains('domain')) children(id).forEach(function (c) { lit[c] = 1; });
+      map.classList.add('is-focus');
+      Object.keys(nodes).forEach(function (k) { nodes[k].classList.toggle('on', !!lit[k]); });
+      edges.forEach(function (e) { if (e.el) e.el.classList.toggle('on', on.indexOf(e) > -1); });
+    }
+    function clear() {
+      map.classList.remove('is-focus');
+      Object.keys(nodes).forEach(function (k) { nodes[k].classList.remove('on'); });
+      edges.forEach(function (e) { if (e.el) e.el.classList.remove('on'); });
+    }
+
+    var pinned = null;
+    Object.keys(nodes).forEach(function (id) {
+      var n = nodes[id];
+      n.addEventListener('mouseenter', function () { focus(id); });
+      n.addEventListener('mouseleave', function () { pinned ? focus(pinned) : clear(); });
+      n.addEventListener('focus', function () { focus(id); });
+      n.addEventListener('blur', function () { pinned ? focus(pinned) : clear(); });
+      n.addEventListener('click', function () {
+        if (n.dataset.pub) { openPaper(n.dataset.pub); return; }
+        pinned = pinned === id ? null : id;
+        pinned ? focus(pinned) : clear();
+      });
+      // Screen-reader summary of each node's connections.
+      var linked = edges.filter(function (e) { return e.a === id || e.b === id; }).map(function (e) {
+        var other = nodes[e.a === id ? e.b : e.a]; return other.querySelector('b') ? other.querySelector('b').textContent : other.firstChild.textContent.trim();
+      });
+      var label = (n.querySelector('b') ? n.querySelector('b').textContent + ', ' + n.querySelector('span').textContent : n.textContent.trim());
+      if (linked.length) n.setAttribute('aria-label', label + '. Connected to: ' + linked.join(', ') + (n.dataset.pub ? '. Opens in Publications.' : ''));
+    });
+    document.addEventListener('click', function (e) { if (pinned && !e.target.closest('.knode')) { pinned = null; clear(); } });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pinned) { pinned = null; clear(); } });
+
+    function openPaper(pid) {
+      document.getElementById('tab-publications').click();
+      var li = document.getElementById(pid);
+      if (!li) return;
+      var det = li.closest('details'); if (det) det.open = true;
+      requestAnimationFrame(function () {
+        var y = li.getBoundingClientRect().top + window.scrollY - document.querySelector('.tabbar').offsetHeight - 16;
+        window.scrollTo({ top: y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        li.classList.remove('flash'); void li.offsetWidth; li.classList.add('flash');
+      });
+    }
+
+    // Draw curves from the right edge of each source to the left edge of each target.
+    var drawnOnce = false;
+    function draw() {
+      if (!map.offsetParent || getComputedStyle(svg).display === 'none') return;
+      var box = map.getBoundingClientRect();
+      svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+      edges.forEach(function (e) {
+        var A = nodes[e.a].getBoundingClientRect(), B = nodes[e.b].getBoundingClientRect();
+        var x1 = A.right - box.left, y1 = A.top + A.height / 2 - box.top;
+        var x2 = B.left - box.left - 2, y2 = B.top + B.height / 2 - box.top;
+        if (nodes[e.b].classList.contains('domain')) { x2 = B.left - box.left - 4; }
+        var k = (x2 - x1) * 0.5;
+        if (!e.el) { e.el = document.createElementNS(NS, 'path'); e.el.setAttribute('stroke', e.color); svg.appendChild(e.el); }
+        e.el.setAttribute('d', 'M' + x1 + ',' + y1 + ' C' + (x1 + k) + ',' + y1 + ' ' + (x2 - k) + ',' + y2 + ' ' + x2 + ',' + y2);
+      });
+      if (!drawnOnce) {
+        drawnOnce = true;
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          // One entrance moment: the links draw in, methods first, then datasets.
+          edges.forEach(function (e, i) {
+            var L = e.el.getTotalLength();
+            e.el.style.strokeDasharray = L; e.el.style.strokeDashoffset = L;
+            e.el.getBoundingClientRect();
+            e.el.style.transition = 'stroke-dashoffset .9s ease ' + (COLORS[e.a] ? 0 : .35) + 's, opacity .2s ease, stroke-width .2s ease';
+            e.el.style.strokeDashoffset = 0;
+            setTimeout(function () { e.el.style.strokeDasharray = ''; e.el.style.strokeDashoffset = ''; e.el.style.transition = ''; }, 1500);
+          });
+        }
+      }
+    }
+    if ('ResizeObserver' in window) new ResizeObserver(draw).observe(map);
+    window.addEventListener('resize', draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    draw();
   })();
 </script>
 </body>
