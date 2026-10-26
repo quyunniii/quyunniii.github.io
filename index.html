@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yunni Qu</title>
+<meta name="description" content="Yunni Qu — PhD student in Computer Science at UNC Chapel Hill working on active feature acquisition and out-of-distribution generalization for healthcare and drug discovery.">
+<meta property="og:title" content="Yunni Qu">
+<meta property="og:description" content="PhD student in Computer Science at UNC Chapel Hill. Longitudinal active feature acquisition; reliable out-of-distribution prediction.">
+<meta property="og:image" content="assets/yunni-qu.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #24445F;
+    --ink-light: #4D749D;
+    --paper: #FBFBF9;
+    --text: #2B3440;
+    --muted: #6B7785;
+    --rule: #DCE3E8;
+    --tint: #F1F4F7;
+    --brass: #A8864F;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans 3", "Segoe UI", Helvetica, Arial, sans-serif;
+    --measure: 68ch;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+  h1, h2, h3 { font-weight: 500; line-height: 1.15; margin: 0; }
+  p { margin: 0 0 1em; max-width: var(--measure); }
+  .wrap { width: min(1080px, 100% - 48px); margin-inline: auto; }
+
+  /* Header: Old Well photo, darkened on the left so the text reads */
+  .hero {
+    position: relative;
+    color: #fff;
+    background-color: var(--ink);
+    background-image:
+      linear-gradient(90deg, rgba(20,38,54,.92) 0%, rgba(20,38,54,.78) 38%, rgba(20,38,54,.25) 75%, rgba(20,38,54,.15) 100%),
+      linear-gradient(0deg, rgba(20,38,54,.55) 0%, rgba(20,38,54,0) 40%),
+      url("assets/old-well.jpg");
+    background-size: cover;
+    background-position: center 40%;
+  }
+  .hero .wrap {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    padding: 84px 0 76px;
+  }
+  .portrait {
+    flex: none;
+    width: 168px; height: 168px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,.9);
+    box-shadow: 0 6px 24px rgba(0,0,0,.25);
+  }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+  .hero h1 { font-size: clamp(2.5rem, 5.5vw, 4.2rem); letter-spacing: -0.015em; margin-bottom: .25em; }
+  .hero .role { font-size: 1.15rem; max-width: 44ch; color: #EEF2F6; margin-bottom: 1.2em; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+  .hero .role em { font-style: italic; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px 22px; font-family: var(--sans); font-size: 1rem; font-weight: 500; }
+  .links a { color: #fff; text-decoration-color: rgba(255,255,255,.5); }
+  .links a:hover { text-decoration-color: #fff; }
+
+  /* Tabs */
+  .tabbar { background: var(--paper); border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 10; }
+  .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    appearance: none; background: none; border: 0; cursor: pointer;
+    font-family: var(--sans); font-size: 1.02rem; font-weight: 500; color: var(--muted);
+    padding: 16px 14px 14px; border-bottom: 2px solid transparent; white-space: nowrap;
+  }
+  .tab:first-child { padding-left: 0; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--brass); }
+
+  main { padding: 56px 0 96px; min-height: 60vh; }
+  .panel { scroll-margin-top: 80px; }
+  .panel[hidden] { display: none; }
+  h2 { font-size: 1.75rem; margin-bottom: .8em; }
+  h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: .35em; }
+  .lede { font-size: 1.15rem; }
+  .sub { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--rule); }
+
+  /* About: short news-style highlights */
+  .highlights { list-style: none; margin: 0; padding: 0; max-width: var(--measure); }
+  .highlights li { display: grid; grid-template-columns: 7rem 1fr; gap: 16px; padding: 8px 0; }
+  .highlights .when, .plain .when, .timeline .when { font-family: var(--sans); font-size: .95rem; color: var(--muted); padding-top: .15rem; }
+
+  /* Research */
+  .threads { display: grid; gap: 32px; max-width: 72ch; }
+  .thread p { margin-bottom: 0; }
+  .thread .apps { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin-top: .4em; }
+
+  /* Publications with figures */
+  .pubs { list-style: none; margin: 0; padding: 0; }
+  .pub { display: grid; grid-template-columns: 300px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+  .pub:first-child { padding-top: 0; }
+  .pub:last-child { border-bottom: 0; }
+  /* Every figure gets the same 3:2 white frame; click opens it full size */
+  .fig { margin: 0; aspect-ratio: 3 / 2; background: #fff; border: 1px solid var(--rule); border-radius: 4px; padding: 8px; }
+  .fig a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; cursor: zoom-in; }
+  .fig img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+  .fig a:hover { opacity: .9; }
+  dialog.lightbox { border: 0; padding: 0; background: transparent; max-width: min(1200px, 94vw); max-height: 92vh; }
+  dialog.lightbox::backdrop { background: rgba(20,38,54,.82); }
+  dialog.lightbox img { display: block; max-width: 100%; max-height: 86vh; background: #fff; padding: 16px; border-radius: 4px; }
+  dialog.lightbox p { color: #fff; font-family: var(--sans); font-size: .95rem; margin: .6em 0 0; max-width: none; }
+  dialog.lightbox button { position: absolute; top: 8px; right: 8px; border: 0; background: rgba(255,255,255,.9); color: var(--ink); font: 600 .9rem var(--sans); padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+  .pub .title { font-weight: 600; font-size: 1.1rem; line-height: 1.35; }
+  .pub .title a { text-decoration: none; }
+  .pub .title a:hover { text-decoration: underline; }
+  .pub .authors { font-size: .98rem; margin-top: .3em; }
+  .pub .authors b { font-weight: 600; color: var(--ink); }
+  .pub .venue { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin-top: .2em; }
+  .pub .venue .note { color: var(--brass); font-weight: 500; }
+  .pub .summary { font-size: .98rem; margin: .55em 0 0; }
+  .pub .pub-links { font-family: var(--sans); font-size: .93rem; margin-top: .55em; display: flex; gap: 16px; flex-wrap: wrap; }
+  .pubs-note { font-family: var(--sans); font-size: .9rem; color: var(--muted); margin-top: 1em; }
+
+  /* Experience / teaching */
+  .timeline { list-style: none; margin: 0; padding: 0; max-width: 74ch; }
+  .timeline li { display: grid; grid-template-columns: 10rem 1fr; gap: 16px; padding: 10px 0; }
+  .timeline .what b { font-weight: 600; }
+  .timeline .what p { margin: .15em 0 0; font-size: .98rem; }
+  .plain { list-style: none; margin: 0; padding: 0; }
+  .plain li { padding: 4px 0; }
+
+  footer { border-top: 1px solid var(--rule); padding: 28px 0 40px; font-family: var(--sans); font-size: .9rem; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 760px) {
+    body { font-size: 17px; }
+    .wrap { width: min(1080px, 100% - 32px); }
+    .hero { background-position: 65% center; }
+    .hero .wrap { flex-direction: column; align-items: flex-start; gap: 20px; padding: 48px 0 40px; }
+    .portrait { width: 112px; height: 112px; }
+    .tab { padding: 14px 10px 12px; font-size: .98rem; }
+    main { padding-top: 36px; }
+    .pub { grid-template-columns: 1fr; gap: 14px; }
+    .fig { max-width: 420px; }
+    .highlights li, .timeline li { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="portrait"><img src="assets/yunni-qu.jpg" alt="Portrait of Yunni Qu" width="880" height="880"></div>
+    <div>
+      <h1>Yunni Qu</h1>
+      <p class="role">PhD student in Computer Science at UNC&nbsp;Chapel&nbsp;Hill, advised by Junier Oliva. I work on deciding <em>what to measure, and when</em>, so that prediction stays reliable when data is costly, incomplete, or unlike what a model has seen.</p>
+      <div class="links">
+        <a href="mailto:quyunni@cs.unc.edu">quyunni@cs.unc.edu</a>
+        <a href="assets/Yunni_Qu_CV.pdf">CV (PDF)</a>
+        <a href="https://www.linkedin.com/in/yunni-qu-b7b44b183">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="tabbar">
+  <div class="wrap tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="tab-about" aria-controls="about" aria-selected="true">About</button>
+    <button class="tab" role="tab" id="tab-research" aria-controls="research" aria-selected="false" tabindex="-1">Research</button>
+    <button class="tab" role="tab" id="tab-publications" aria-controls="publications" aria-selected="false" tabindex="-1">Publications</button>
+    <button class="tab" role="tab" id="tab-experience" aria-controls="experience" aria-selected="false" tabindex="-1">Experience</button>
+    <button class="tab" role="tab" id="tab-teaching" aria-controls="teaching" aria-selected="false" tabindex="-1">Teaching &amp; service</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="panel" id="about" role="tabpanel" aria-labelledby="tab-about">
+    <h2>About</h2>
+    <p class="lede">I am a fourth-year PhD student in the Department of Computer Science at the University of North Carolina at Chapel Hill, where I received an en-route M.S. in 2025 and expect to graduate in summer 2027. My tentative thesis title is <i>Towards Inference-Time Reliability &amp; Acquisition Utility</i>.</p>
+    <p>My research develops machine learning methods for two problems: choosing which features to acquire over time when every measurement has a cost, and making reliable predictions on inputs unlike the training data. I apply them to healthcare prognosis, longitudinal psychological assessment, and virtual screening in drug discovery.</p>
+    <p>Before UNC, I completed an Honours B.S. in Computer Science and Data Science with High Distinction at the University of Toronto (2023), where I worked on neural-network uncertainty and medical image segmentation and classification.</p>
+
+    <div class="sub">
+      <h3>Recent</h3>
+      <ul class="highlights">
+        <li><span class="when">Oct 2026</span><span>New preprint on interpretable active feature acquisition for psychology studies, on <a href="https://arxiv.org/abs/2610.07452">arXiv</a>.</span></li>
+        <li><span class="when">2026</span><span>CAPE accepted to the NeurIPS 2026 main track.</span></li>
+        <li><span class="when">2026</span><span>Two papers, REACT and EXPLOR, accepted as long orals at ACM BCB 2026.</span></li>
+        <li><span class="when">Aug 2026</span><span>Guest lectures on probability and optimization for COMP 755 at UNC.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="research" role="tabpanel" aria-labelledby="tab-research" hidden>
+    <h2>Research</h2>
+    <div class="threads">
+      <div class="thread">
+        <h3>Longitudinal active feature acquisition</h3>
+        <p>In many settings every measurement has a cost: a clinical test, a questionnaire item, a follow-up visit. I develop methods that choose which features to acquire at each timepoint so that predictions stay accurate while the burden on patients and study participants falls. This includes differentiable acquisition policies for context and temporal features (REACT), nonmyopic cost-tradeoff planning (CAPE), and distilling learned policies into interpretable decision trees.</p>
+        <div class="apps">Applications: healthcare prognosis, longitudinal psychological assessment</div>
+      </div>
+      <div class="thread">
+        <h3>Reliable out-of-distribution prediction</h3>
+        <p>In virtual screening, the most promising new chemical scaffolds are often exactly the ones a model has never seen. I work on methods that extrapolate with calibrated confidence rather than rejecting novel inputs outright, so that useful candidates are ranked rather than discarded (EXPLOR).</p>
+        <div class="apps">Applications: virtual screening in drug discovery, highly imbalanced data</div>
+      </div>
+      <div class="thread">
+        <h3>Ongoing</h3>
+        <p>Transferring from DNA-encoded library (DEL) screens to affinity-selection mass spectrometry (ASMS) with active learning on highly imbalanced data.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="publications" role="tabpanel" aria-labelledby="tab-publications" hidden>
+    <h2>Publications</h2>
+    <ol class="pubs" reversed>
+      <li class="pub">
+        <figure class="fig"><a href="assets/papers/neurips2026-cape.png"><img src="assets/papers/neurips2026-cape.png" alt="CAPE embedding of partially observed data: clusters with centroids, each labeled with its next acquisition time and features" width="1400" height="1082" loading="lazy"></a></figure>
+        <div>
+          <div class="title"><a href="https://openreview.net/forum?id=tqkenMK3QV">Contrastive Nonmyopic Objective Cost-Tradeoff Acquisition for Longitudinal Data</a></div>
+          <div class="authors">Dzung Dinh*, Boqi Chen*, <b>Yunni Qu</b>, Marc Niethammer, Junier Oliva</div>
+          <div class="venue">NeurIPS 2026, main track</div>
+          <p class="summary">CAPE plans feature acquisitions over time by scoring candidate plans with a nonmyopic objective that trades expected loss against cost, then retrieves precomputed plans at inference time from a learned embedding of partially observed data.</p>
+          <div class="pub-links"><a href="https://openreview.net/forum?id=tqkenMK3QV">OpenReview</a><a href="https://neurips.cc/virtual/2026/poster/148964">NeurIPS page</a></div>
+        </div>
+      </li>
+      <li class="pub">
+        <figure class="fig"><a href="assets/papers/bcb2026-react.png"><img src="assets/papers/bcb2026-react.png" alt="Overview of REACT: a one-time onboarding acquisition of context descriptors, then a planner that repeatedly decides when to acquire next and which features to acquire" width="1400" height="394" loading="lazy"></a></figure>
+        <div>
+          <div class="title"><a href="https://doi.org/10.1145/3807503.3819475">Relaxed Efficient Acquisition of Context and Temporal Features</a></div>
+          <div class="authors"><b>Yunni Qu</b>, Dzung Dinh, Grant King, Whitney Ringwald, Bing Cai Kok, Kathleen Gates, Aidan Wright, Junier Oliva</div>
+          <div class="venue">ACM BCB 2026 · <span class="note">long oral</span></div>
+          <p class="summary">REACT is a differentiable framework that jointly chooses which onboarding descriptors to collect and which longitudinal measurements to take over time under cost constraints, improving prediction at lower acquisition cost on real health and behavioral data.</p>
+          <div class="pub-links"><a href="https://doi.org/10.1145/3807503.3819475">ACM DL</a><a href="https://arxiv.org/abs/2603.11370">arXiv</a></div>
+        </div>
+      </li>
+      <li class="pub">
+        <figure class="fig"><a href="assets/papers/bcb2026-explor.png"><img src="assets/papers/bcb2026-explor.png" alt="EXPLOR overview: diverse pseudo-labelers are pre-trained, data is expanded, and a multi-headed network matches each head to one pseudo-labeler" width="637" height="475" loading="lazy"></a></figure>
+        <div>
+          <div class="title"><a href="https://doi.org/10.1145/3807503.3819476">Reliable OOD Virtual Screening with Extrapolatory Pseudo-Label Matching</a></div>
+          <div class="authors"><b>Yunni Qu</b>, Bhargav Vaduri, Karthikeya Jatoth, James Wellnitz, Dzung Dinh, Seth Veenbaas, Jonathan Chapman, Alexander Tropsha, Junier Oliva</div>
+          <div class="venue">ACM BCB 2026 · <span class="note">long oral</span></div>
+          <p class="summary">EXPLOR uses extrapolative pseudo-labeling on latent-space augmentations with a multi-headed network and a per-head matching loss, giving well-calibrated confidence on novel chemical scaffolds using only labeled training data.</p>
+          <div class="pub-links"><a href="https://doi.org/10.1145/3807503.3819476">ACM DL</a><a href="https://arxiv.org/abs/2406.01825">arXiv</a></div>
+        </div>
+      </li>
+      <li class="pub">
+        <figure class="fig"><a href="assets/papers/arxiv2026-lafa.png"><img src="assets/papers/arxiv2026-lafa.png" alt="A distilled tree policy traced for one example participant: which context and questionnaire panels to acquire at each timepoint" width="1400" height="716" loading="lazy"></a></figure>
+        <div>
+          <div class="title"><a href="https://arxiv.org/abs/2610.07452">Interpretable Active Feature Acquisition for Cost-Efficient Temporal Prediction with Reduced Participant Burden</a></div>
+          <div class="authors"><b>Yunni Qu</b>*, Bing Cai Kok*, Whitney Ringwald, Grant King, Aidan Wright, Kathleen Gates, Junier Oliva</div>
+          <div class="venue">Preprint, arXiv:2610.07452</div>
+          <p class="summary">Selects a changing subset of questionnaire items to collect at each timepoint of a psychology study, and distills the learned acquisition policy into interpretable decision trees so that participant burden drops without losing forecasting accuracy.</p>
+          <div class="pub-links"><a href="https://arxiv.org/abs/2610.07452">arXiv</a></div>
+        </div>
+      </li>
+      <li class="pub">
+        <figure class="fig"><a href="assets/papers/icpr2022.jpg"><img src="assets/papers/icpr2022.jpg" alt="An input image alongside feature-attribution maps from separately trained networks" loading="lazy"></a></figure>
+        <div>
+          <div class="title"><a href="https://doi.org/10.1109/ICPR56361.2022.9956394">Neural Network Decision-Making Criteria Consistency Analysis via Inputs Sensitivity</a></div>
+          <div class="authors">Eric Xing, Liangliang Liu, Xin Xing, <b>Yunni Qu</b>, Nathan Jacobs, Gongbo Liang</div>
+          <div class="venue">ICPR 2022</div>
+          <p class="summary">Networks trained repeatedly on the same task reach similar accuracy but can rely on very different input features; this work measures that inconsistency with feature-attribution maps and clustering analysis.</p>
+          <div class="pub-links"><a href="https://doi.org/10.1109/ICPR56361.2022.9956394">IEEE Xplore</a></div>
+        </div>
+      </li>
+      <li class="pub">
+        <figure class="fig"><a href="assets/papers/embc2022.png"><img src="assets/papers/embc2022.png" alt="Clustered correlation heatmap of learned features from two training trials, showing features grouping by trial" loading="lazy"></a></figure>
+        <div>
+          <div class="title"><a href="https://doi.org/10.1109/EMBC48229.2022.9871921">Beware the Black-Box of Medical Image Generation: An Uncertainty Analysis by the Learned Feature Space</a></div>
+          <div class="authors"><b>Yunni Qu</b>, David Yan, Eric Xing, Fengbo Zheng, Jie Zhang, Liangliang Liu, Gongbo Liang</div>
+          <div class="venue">IEEE EMBC 2022</div>
+          <p class="summary">U-Nets for medical image generation give stable output quality across training runs, yet their learned feature spaces differ substantially; this work analyzes that uncertainty with computational and clustering methods.</p>
+          <div class="pub-links"><a href="https://doi.org/10.1109/EMBC48229.2022.9871921">IEEE Xplore</a></div>
+        </div>
+      </li>
+    </ol>
+    <p class="pubs-note">* equal contribution</p>
+  </section>
+
+  <section class="panel" id="experience" role="tabpanel" aria-labelledby="tab-experience" hidden>
+    <h2>Experience</h2>
+    <ol class="timeline">
+      <li>
+        <div class="when">Aug 2023 – present</div>
+        <div class="what"><b>Graduate Research Assistant</b>, UNC Chapel Hill
+          <p>Longitudinal active feature acquisition and out-of-distribution methods for healthcare, drug discovery, and clinical psychology.</p></div>
+      </li>
+      <li>
+        <div class="when">Sep 2022 – May 2023</div>
+        <div class="what"><b>Research Assistant</b>, University of Toronto
+          <p>Predicted the environmental impact of international conferences from attendees' flight energy use.</p></div>
+      </li>
+      <li>
+        <div class="when">May – Aug 2022</div>
+        <div class="what"><b>Research Intern</b>, Princess Margaret Cancer Centre
+          <p>Benchmarked the robustness of nnU-Net cervical-cancer MR segmentation models on hospital imaging data using Dice and robustness metrics. <a href="assets/BHKLab_labmeeting_2022.pdf">Slides</a></p></div>
+      </li>
+      <li>
+        <div class="when">Aug 2021 – May 2022</div>
+        <div class="what"><b>Research Student</b>, Texas A&amp;M University
+          <p>Uncertainty analysis of neural networks for low-to-high-resolution medical image generation.</p></div>
+      </li>
+      <li>
+        <div class="when">May – Aug 2021</div>
+        <div class="what"><b>Research Assistant</b>, University of Toronto
+          <p>Analyzed and reported experimental results for medical image analysis research.</p></div>
+      </li>
+    </ol>
+
+    <div class="sub">
+      <h3>Education</h3>
+      <ol class="timeline">
+        <li><div class="when">2023 – 2027 (exp.)</div><div class="what"><b>Ph.D. in Computer Science</b>, UNC Chapel Hill<p>En-route M.S., 2025. Advisor: Junier Oliva.</p></div></li>
+        <li><div class="when">2019 – 2023</div><div class="what"><b>Honours B.S., Computer Science and Data Science</b>, University of Toronto<p>With High Distinction.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="sub">
+      <h3>Honors</h3>
+      <ul class="timeline">
+        <li><div class="when">2021 – 2023</div><div class="what">Dean's List Scholar, University of Toronto</div></li>
+        <li><div class="when">2022</div><div class="what">Best Visualization, ASA DataFest</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="teaching" role="tabpanel" aria-labelledby="tab-teaching" hidden>
+    <h2>Teaching</h2>
+    <ol class="timeline">
+      <li>
+        <div class="when">Aug 2026</div>
+        <div class="what"><b>Guest Lecturer</b>, COMP 755 Machine Learning, UNC
+          <p>PhD-level lectures on probability and optimization.</p></div>
+      </li>
+      <li>
+        <div class="when">May – Jul 2025</div>
+        <div class="what"><b>Instructor</b>, UNC PRIMES summer program
+          <p>Designed and taught a machine learning short course for a residential research program in medical imaging and Alzheimer's disease.</p></div>
+      </li>
+    </ol>
+
+    <div class="sub">
+      <h3>Reviewing</h3>
+      <ul class="plain">
+        <li>AAAI Conference on Artificial Intelligence, 2026 and 2027</li>
+        <li>International Conference on Learning Representations (ICLR), 2025</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<dialog class="lightbox" aria-label="Figure"><button type="button">Close</button><img alt=""><p></p></dialog>
+
+<footer>
+  <div class="wrap">
+    <span>Yunni Qu, Department of Computer Science, UNC Chapel Hill</span>
+    <span>Updated October 2026</span>
+  </div>
+</footer>
+
+<script>
+  // Tabs: click or arrow keys switch panels; the URL hash keeps a tab linkable (e.g. #publications).
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    function show(id, focus, push) {
+      var found = false;
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('aria-controls') === id;
+        if (on) found = true;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+        if (on && focus) t.focus();
+      });
+      if (!found) return show('about', focus, false);
+      if (push) history.replaceState(null, '', id === 'about' ? location.pathname : '#' + id);
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        show(t.getAttribute('aria-controls'), false, true);
+        var bar = document.querySelector('.tabbar');
+        if (bar.getBoundingClientRect().top < 0 || window.scrollY > bar.offsetTop) window.scrollTo(0, bar.offsetTop);
+      });
+      t.addEventListener('keydown', function (e) {
+        var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : null;
+        if (j === null) return;
+        e.preventDefault();
+        j = (j + tabs.length) % tabs.length;
+        show(tabs[j].getAttribute('aria-controls'), true, true);
+      });
+    });
+    function fromHash() { show((location.hash || '#about').slice(1), false, false); }
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  })();
+
+  // Open paper figures in a lightbox instead of navigating away.
+  (function () {
+    var dlg = document.querySelector('dialog.lightbox');
+    if (!dlg || !dlg.showModal) return;
+    var img = dlg.querySelector('img'), cap = dlg.querySelector('p');
+    document.querySelectorAll('.fig a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var t = a.querySelector('img');
+        img.src = a.href; img.alt = t.alt;
+        cap.textContent = a.closest('.pub').querySelector('.title').textContent;
+        dlg.showModal();
+      });
+    });
+    dlg.querySelector('button').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  })();
+</script>
+</body>
+</html>
